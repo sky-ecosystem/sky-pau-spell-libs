@@ -7,6 +7,8 @@ import { IAaveController,          IAaveFacet }          from "./interfaces/Aave
 import { ICCTPController,          ICCTPFacet }          from "./interfaces/CCTP.sol";
 import { IERC4626Controller,       IERC4626Facet }       from "./interfaces/ERC4626.sol";
 import { ILayerZeroController,     ILayerZeroFacet }     from "./interfaces/LayerZero.sol";
+import { INFATHaloController,      INFATHaloFacet }      from "./interfaces/NFATHalo.sol";
+import { INFATPrimeController,     INFATPrimeFacet }     from "./interfaces/NFATPrime.sol";
 import { IPSM3Controller,          IPSM3Facet }          from "./interfaces/PSM3.sol";
 import { ISparkVaultController,    ISparkVaultFacet }    from "./interfaces/SparkVault.sol";
 import { ITransferAssetController, ITransferAssetFacet } from "./interfaces/TransferAsset.sol";
@@ -39,6 +41,12 @@ library BeaconConfig {
 
     /// @notice Integration identifier for the LayerZero facet.
     bytes32 internal constant LAYER_ZERO_INTEGRATION = "LAYER_ZERO_FACET";
+
+    /// @notice Integration identifier for the NFAT Halo facet.
+    bytes32 internal constant NFAT_HALO_INTEGRATION = "NFAT_HALO_FACET";
+
+    /// @notice Integration identifier for the NFAT Prime facet.
+    bytes32 internal constant NFAT_PRIME_INTEGRATION = "NFAT_PRIME_FACET";
 
     /// @notice Integration identifier for the PSM3 facet.
     bytes32 internal constant PSM3_INTEGRATION = "PSM3_FACET";
@@ -346,6 +354,173 @@ library BeaconConfig {
         returns (IBeaconLike.Config memory)
     {
         return IBeaconLike(beacon).getConfig(LAYER_ZERO_INTEGRATION);
+    }
+
+    /**********************************************************************************************/
+    /*** NFATHalo Integration                                                                   ***/
+    /**********************************************************************************************/
+
+    /**
+     * @notice Configures the NFATHalo facet integration on the beacon.
+     * @dev    Must be called by the beacon admin (e.g. wrapped in
+     *         `vm.startBroadcast`/`vm.stopBroadcast` or `vm.startPrank`/`vm.stopPrank`).
+     * @param  beacon Address of the Sky Diamond PAU Beacon.
+     * @param  facet  Address of the deployed NFATHaloFacet contract.
+     */
+    function setNFATHaloIntegration(address beacon, address facet) internal {
+        IBeaconLike.Wire[] memory wires = new IBeaconLike.Wire[](12);
+
+        wires[0] = IBeaconLike.Wire(
+            INFATHaloController.nfatHalo_setMaxAnnualGrowthRate.selector,
+            INFATHaloFacet.setMaxAnnualGrowthRate.selector
+        );
+
+        wires[1] = IBeaconLike.Wire(
+            INFATHaloController.nfatHalo_issue.selector,
+            INFATHaloFacet.issue.selector
+        );
+
+        wires[2] = IBeaconLike.Wire(
+            INFATHaloController.nfatHalo_repayPrincipal.selector,
+            INFATHaloFacet.repayPrincipal.selector
+        );
+
+        wires[3] = IBeaconLike.Wire(
+            INFATHaloController.nfatHalo_repayInterest.selector,
+            INFATHaloFacet.repayInterest.selector
+        );
+
+        wires[4] = IBeaconLike.Wire(
+            INFATHaloController.nfatHalo_getMaxAnnualGrowthRate.selector,
+            INFATHaloFacet.getMaxAnnualGrowthRate.selector
+        );
+
+        wires[5] = IBeaconLike.Wire(
+            INFATHaloController.nfatHalo_getFacilityState.selector,
+            INFATHaloFacet.getFacilityState.selector
+        );
+
+        wires[6] = IBeaconLike.Wire(
+            INFATHaloController.nfatHalo_getPosition.selector,
+            INFATHaloFacet.getPosition.selector
+        );
+
+        wires[7] = IBeaconLike.Wire(
+            INFATHaloController.nfatHalo_getCurrentMaxOutstandingInterest.selector,
+            INFATHaloFacet.getCurrentMaxOutstandingInterest.selector
+        );
+
+        wires[8] = IBeaconLike.Wire(
+            INFATHaloController.nfatHalo_getIssueRateLimitKey.selector,
+            INFATHaloFacet.getIssueRateLimitKey.selector
+        );
+
+        wires[9] = IBeaconLike.Wire(
+            INFATHaloController.nfatHalo_getRepayInterestRateLimitKey.selector,
+            INFATHaloFacet.getRepayInterestRateLimitKey.selector
+        );
+
+        wires[10] = IBeaconLike.Wire(
+            INFATHaloController.nfatHalo_getRepayPrincipalRateLimitKey.selector,
+            INFATHaloFacet.getRepayPrincipalRateLimitKey.selector
+        );
+
+        wires[11] = IBeaconLike.Wire(
+            INFATHaloController.nfatHalo_VERSION.selector,
+            INFATHaloFacet.VERSION.selector
+        );
+
+        IBeaconLike.Config memory config = IBeaconLike.Config({
+            facet : facet,
+            wires : wires
+        });
+
+        IBeaconLike(beacon).setIntegration(NFAT_HALO_INTEGRATION, config);
+    }
+
+    /**
+     * @notice Retrieves the NFATHalo facet integration configuration from the beacon.
+     * @dev    Intended for spell testing to verify integration configuration was set correctly.
+     * @param  beacon Address of the Sky Diamond PAU Beacon.
+     * @return config Configuration struct containing the facet address and selector wires.
+     */
+    function getNFATHaloIntegration(address beacon)
+        internal
+        view
+        returns (IBeaconLike.Config memory)
+    {
+        return IBeaconLike(beacon).getConfig(NFAT_HALO_INTEGRATION);
+    }
+
+    /**********************************************************************************************/
+    /*** NFATPrime Integration                                                                  ***/
+    /**********************************************************************************************/
+
+    /**
+     * @notice Configures the NFATPrime facet integration on the beacon.
+     * @dev    Must be called by the beacon admin (e.g. wrapped in
+     *         `vm.startBroadcast`/`vm.stopBroadcast` or `vm.startPrank`/`vm.stopPrank`).
+     * @param  beacon Address of the Sky Diamond PAU Beacon.
+     * @param  facet  Address of the deployed NFATPrimeFacet contract.
+     */
+    function setNFATPrimeIntegration(address beacon, address facet) internal {
+        IBeaconLike.Wire[] memory wires = new IBeaconLike.Wire[](7);
+
+        wires[0] = IBeaconLike.Wire(
+            INFATPrimeController.nfatPrime_subscribe.selector,
+            INFATPrimeFacet.subscribe.selector
+        );
+
+        wires[1] = IBeaconLike.Wire(
+            INFATPrimeController.nfatPrime_withdraw.selector,
+            INFATPrimeFacet.withdraw.selector
+        );
+
+        wires[2] = IBeaconLike.Wire(
+            INFATPrimeController.nfatPrime_collect.selector,
+            INFATPrimeFacet.collect.selector
+        );
+
+        wires[3] = IBeaconLike.Wire(
+            INFATPrimeController.nfatPrime_getSubscribeRateLimitKey.selector,
+            INFATPrimeFacet.getSubscribeRateLimitKey.selector
+        );
+
+        wires[4] = IBeaconLike.Wire(
+            INFATPrimeController.nfatPrime_getCollectRateLimitKey.selector,
+            INFATPrimeFacet.getCollectRateLimitKey.selector
+        );
+
+        wires[5] = IBeaconLike.Wire(
+            INFATPrimeController.nfatPrime_getWithdrawRateLimitKey.selector,
+            INFATPrimeFacet.getWithdrawRateLimitKey.selector
+        );
+
+        wires[6] = IBeaconLike.Wire(
+            INFATPrimeController.nfatPrime_VERSION.selector,
+            INFATPrimeFacet.VERSION.selector
+        );
+
+        IBeaconLike.Config memory config = IBeaconLike.Config({
+            facet : facet,
+            wires : wires
+        });
+
+        IBeaconLike(beacon).setIntegration(NFAT_PRIME_INTEGRATION, config);
+    }
+
+    /**
+     * @notice Retrieves the NFATPrime facet integration configuration from the beacon.
+     * @dev    Intended for spell testing to verify integration configuration was set correctly.
+     * @param  beacon Address of the Sky Diamond PAU Beacon.
+     * @return config Configuration struct containing the facet address and selector wires.
+     */
+    function getNFATPrimeIntegration(address beacon)
+        internal
+        view
+        returns (IBeaconLike.Config memory)
+    {
+        return IBeaconLike(beacon).getConfig(NFAT_PRIME_INTEGRATION);
     }
 
     /**********************************************************************************************/

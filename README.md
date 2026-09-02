@@ -14,6 +14,8 @@ The `BeaconConfig` library provides helper functions to wire selector dispatches
 | `CCTP_FACET`           | `CCTPFacet`          | `setCCTPIntegration(beacon, facet)`          | `getCCTPIntegration(beacon)`          |
 | `ERC4626_FACET`        | `ERC4626Facet`       | `setERC4626Integration(beacon, facet)`       | `getERC4626Integration(beacon)`       |
 | `LAYER_ZERO_FACET`     | `LayerZeroFacet`     | `setLayerZeroIntegration(beacon, facet)`     | `getLayerZeroIntegration(beacon)`     |
+| `NFAT_HALO_FACET`      | `NFATHaloFacet`      | `setNFATHaloIntegration(beacon, facet)`      | `getNFATHaloIntegration(beacon)`      |
+| `NFAT_PRIME_FACET`     | `NFATPrimeFacet`     | `setNFATPrimeIntegration(beacon, facet)`     | `getNFATPrimeIntegration(beacon)`     |
 | `PSM3_FACET`           | `PSM3Facet`          | `setPSM3Integration(beacon, facet)`          | `getPSM3Integration(beacon)`          |
 | `SPARK_VAULT_FACET`    | `SparkVaultFacet`    | `setSparkVaultIntegration(beacon, facet)`    | `getSparkVaultIntegration(beacon)`    |
 | `TRANSFER_ASSET_FACET` | `TransferAssetFacet` | `setTransferAssetIntegration(beacon, facet)` | `getTransferAssetIntegration(beacon)` |
