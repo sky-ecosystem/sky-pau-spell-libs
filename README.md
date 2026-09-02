@@ -8,13 +8,16 @@ The `BeaconConfig` library provides helper functions to wire selector dispatches
 
 ### Supported Integrations
 
-| Integration ID      | Facet             | Set Function                              | Get Function                       |
-| :------------------ | :---------------- | :---------------------------------------- | :--------------------------------- |
-| `CCTP_FACET`        | `CCTPFacet`       | `setCCTPIntegration(beacon, facet)`       | `getCCTPIntegration(beacon)`       |
-| `ERC4626_FACET`     | `ERC4626Facet`    | `setERC4626Integration(beacon, facet)`    | `getERC4626Integration(beacon)`    |
-| `LAYER_ZERO_FACET`  | `LayerZeroFacet`  | `setLayerZeroIntegration(beacon, facet)`  | `getLayerZeroIntegration(beacon)`  |
-| `PSM3_FACET`        | `PSM3Facet`       | `setPSM3Integration(beacon, facet)`       | `getPSM3Integration(beacon)`       |
-| `SPARK_VAULT_FACET` | `SparkVaultFacet` | `setSparkVaultIntegration(beacon, facet)` | `getSparkVaultIntegration(beacon)` |
+| Integration ID         | Facet                | Set Function                                 | Get Function                          |
+| :--------------------- | :------------------- | :------------------------------------------- | :------------------------------------ |
+| `AAVE_FACET`           | `AaveFacet`          | `setAaveIntegration(beacon, facet)`          | `getAaveIntegration(beacon)`          |
+| `CCTP_FACET`           | `CCTPFacet`          | `setCCTPIntegration(beacon, facet)`          | `getCCTPIntegration(beacon)`          |
+| `ERC4626_FACET`        | `ERC4626Facet`       | `setERC4626Integration(beacon, facet)`       | `getERC4626Integration(beacon)`       |
+| `LAYER_ZERO_FACET`     | `LayerZeroFacet`     | `setLayerZeroIntegration(beacon, facet)`     | `getLayerZeroIntegration(beacon)`     |
+| `PSM3_FACET`           | `PSM3Facet`          | `setPSM3Integration(beacon, facet)`          | `getPSM3Integration(beacon)`          |
+| `SPARK_VAULT_FACET`    | `SparkVaultFacet`    | `setSparkVaultIntegration(beacon, facet)`    | `getSparkVaultIntegration(beacon)`    |
+| `TRANSFER_ASSET_FACET` | `TransferAssetFacet` | `setTransferAssetIntegration(beacon, facet)` | `getTransferAssetIntegration(beacon)` |
+| `UNISWAP_V4_FACET`     | `UniswapV4Facet`     | `setUniswapV4Integration(beacon, facet)`     | `getUniswapV4Integration(beacon)`     |
 
 ## Usage
 
